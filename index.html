@@ -1,0 +1,361 @@
+<html><head><base href="main.html">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リアルサポートチャット</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;700&display=swap');
+
+  body {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background-color: #ffe6e6;
+    margin: 0;
+    padding: 20px;
+    color: #5a3d3d;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff5f5;
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
+  }
+  h1, h2 {
+    color: #ff69b4;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+  }
+  h1 { font-size: 2.5em; }
+  h2 { font-size: 2em; }
+  label {
+    display: block;
+    margin-top: 15px;
+    color: #ff69b4;
+    font-weight: bold;
+  }
+  select, input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 3px solid #ffb6c1;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    color: #5a3d3d;
+    background-color: #fff;
+    transition: all 0.3s ease;
+  }
+  select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: #ff69b4;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+  }
+  button {
+    background-color: #ff69b4;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 18px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+  }
+  button:hover {
+    background-color: #ff1493;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+  }
+  #responseArea, #adminResponseArea, #historyArea {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff0f5;
+    border-radius: 20px;
+    border: 3px solid #ffb6c1;
+  }
+  .response {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(255, 182, 193, 0.3);
+  }
+  .emoji {
+    font-size: 2em;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .hidden {
+    display: none;
+  }
+  #deleteHistory {
+    background-color: #ff4757;
+    margin-top: 10px;
+  }
+  #deleteHistory:hover {
+    background-color: #ff6b81;
+  }
+  .deleteBtn {
+    background-color: #ff4757;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .deleteBtn:hover {
+    background-color: #ff6b81;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1><span class="emoji">💖</span>リアルサポートチャット<span class="emoji">💖</span></h1>
+  
+  <form id="loginForm">
+    <label for="password">マジカルパスワード：</label>
+    <input type="password" id="password" required placeholder="ヒミツの合言葉を入力してね♪">
+    <button type="submit">ログイン<span class="emoji">🔑</span></button>
+  </form>
+
+  <form id="supportForm" class="hidden">
+    <label for="name">ニックネーム：</label>
+    <input type="text" id="name" required placeholder="ニックネームを教えてね♡">
+    
+    <label for="class">クラス：</label>
+    <select id="class" required>
+      <option value="">選んでね♪</option>
+      <!-- JavaScriptでクラスの選択肢を生成 -->
+    </select>
+    
+    <label for="number">ラッキーナンバー：</label>
+    <select id="number" required>
+      <option value="">選んでね♪</option>
+      <!-- JavaScriptで1から44までの選択肢を生成 -->
+    </select>
+    
+    <label for="situation">どんな気持ち？：</label>
+    <select id="situation" required>
+      <option value="">選んでね♪</option>
+      <option value="制作している物について相談したい">作ってるものについてお話ししたい♪</option>
+      <option value="困ったことがあって悩んでいる">困ってるの...助けて～(´；ω；｀)</option>
+      <option value="特にないが話がしたい">特にないけど、作品を見てほしい。♡</option>
+      <option value="その他">その他のワケあり相談♪</option>
+    </select>
+    
+    <label for="details">お話の内容：</label>
+    <textarea id="details" rows="4" required placeholder="ここに気持ちをたくさん書いてね♡"></textarea>
+    
+    <button type="submit">送信<span class="emoji">✨</span></button>
+  </form>
+  
+  <div id="responseArea" class="hidden">
+    <h2><span class="emoji">💌</span>ハートフルメッセージ</h2>
+    <!-- 返信内容がここに表示されます -->
+  </div>
+
+  <div id="adminResponseArea" class="hidden">
+    <h2><span class="emoji">👩‍🏫</span>管理者返信フォーム</h2>
+    <form id="adminForm">
+      <label for="adminResponse">返信内容：</label>
+      <textarea id="adminResponse" rows="4" required placeholder="ここに返信を入力してください。"></textarea>
+      <button type="submit">返信を送信<span class="emoji">📤</span></button>
+    </form>
+  </div>
+
+  <div id="historyArea" class="hidden">
+    <h2><span class="emoji">📚</span>過去のやりとり</h2>
+    <button id="showHistory">履歴を表示する<span class="emoji">🔍</span></button>
+    <button id="deleteHistory">履歴を全て削除する<span class="emoji">🗑️</span></button>
+    <div id="historyContent"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const loginForm = document.getElementById('loginForm');
+  const supportForm = document.getElementById('supportForm');
+  const responseArea = document.getElementById('responseArea');
+  const adminResponseArea = document.getElementById('adminResponseArea');
+  const historyArea = document.getElementById('historyArea');
+  const classSelect = document.getElementById('class');
+  const numberSelect = document.getElementById('number');
+
+  // クラスの選択肢を生成
+  for (let grade = 1; grade <= 3; grade++) {
+    for (let classNum = 1; classNum <= 5; classNum++) {
+      const option = document.createElement('option');
+      option.value = `${grade}-${classNum}`;
+      option.textContent = `${grade}-${classNum} ${getClassEmoji(grade, classNum)}`;
+      classSelect.appendChild(option);
+    }
+  }
+
+  // ラッキーナンバーの選択肢を生成
+  for (let i = 1; i <= 44; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = `${i} ${getNumberEmoji(i)}`;
+    numberSelect.appendChild(option);
+  }
+
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    if (password === 'bijyu') {
+      loginForm.classList.add('hidden');
+      supportForm.classList.remove('hidden');
+      responseArea.classList.remove('hidden');
+      adminResponseArea.classList.remove('hidden');
+      historyArea.classList.remove('hidden');
+    } else {
+      alert('あら？ パスワードが違うみたい。もう一度試してね♪');
+    }
+  });
+
+  supportForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // フォームデータの収集
+    const formData = {
+      id: Date.now(), // 一意のIDを生成
+      name: document.getElementById('name').value,
+      class: document.getElementById('class').value,
+      number: document.getElementById('number').value,
+      situation: document.getElementById('situation').value,
+      details: document.getElementById('details').value,
+      timestamp: new Date().toLocaleString()
+    };
+
+    // 送信メッセージを表示
+    const submittedMessage = `<div class="response">
+      <p><strong>${formData.name}さん</strong>、メッセージを受け付けました。</p>
+      <p>内容を確認次第、返信させていただきます。</p>
+      <p>しばらくお待ちください。${getRandomEmoji()}</p>
+    </div>`;
+
+    responseArea.innerHTML += submittedMessage;
+
+    // 履歴に保存
+    saveToHistory(formData);
+
+    // フォームをリセット
+    supportForm.reset();
+  });
+
+  // 管理者の返信フォーム
+  const adminForm = document.getElementById('adminForm');
+  adminForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const adminResponse = document.getElementById('adminResponse').value;
+    
+    const responseMessage = `<div class="response">
+      <p><strong>先生からの返信：</strong></p>
+      <p>${adminResponse}</p>
+    </div>`;
+
+    responseArea.innerHTML += responseMessage;
+
+    // 履歴に保存
+    saveToHistory({
+      id: Date.now(), // 一意のIDを生成
+      type: 'admin',
+      response: adminResponse,
+      timestamp: new Date().toLocaleString()
+    });
+
+    adminForm.reset();
+  });
+
+  // 履歴を表示するボタン
+  const showHistoryBtn = document.getElementById('showHistory');
+  showHistoryBtn.addEventListener('click', function() {
+    displayHistory();
+  });
+
+  // 履歴を全て削除するボタン
+  const deleteHistoryBtn = document.getElementById('deleteHistory');
+  deleteHistoryBtn.addEventListener('click', function() {
+    if (confirm('本当に履歴を全て削除しますか？この操作は取り消せません。')) {
+      localStorage.removeItem('chatHistory');
+      const historyContent = document.getElementById('historyContent');
+      historyContent.innerHTML = '<p>履歴が全て削除されました。</p>';
+    }
+  });
+
+  function getClassEmoji(grade, classNum) {
+    const emojis = ['🌸', '🌺', '🌷', '🌹', '🌻'];
+    return emojis[(grade + classNum) % 5];
+  }
+
+  function getNumberEmoji(number) {
+    const emojis = ['🍓', '🍊', '🍋', '🍐', '🍎', '🍉', '🍇', '🍒', '🍑', '🥝'];
+    return emojis[number % 10];
+  }
+
+  function getRandomEmoji() {
+    const emojis = ['😊', '💖', '✨', '🌟', '🎈', '🌸', '🍀', '🌈', '🍭', '🦄'];
+    return emojis[Math.floor(Math.random() * emojis.length)];
+  }
+
+  function saveToHistory(data) {
+    let history = JSON.parse(localStorage.getItem('chatHistory')) || [];
+    history.push(data);
+    localStorage.setItem('chatHistory', JSON.stringify(history));
+  }
+
+  function displayHistory() {
+    const historyContent = document.getElementById('historyContent');
+    const history = JSON.parse(localStorage.getItem('chatHistory')) || [];
+    
+    let historyHTML = '';
+    history.forEach(item => {
+      if (item.type === 'admin') {
+        historyHTML += `<div class="response">
+          <p><strong>先生からの返信 (${item.timestamp})：</strong></p>
+          <p>${item.response}</p>
+          <button class="deleteBtn" data-id="${item.id}">この記録を削除</button>
+        </div>`;
+      } else {
+        historyHTML += `<div class="response">
+          <p><strong>${item.name}さんからのメッセージ (${item.timestamp})：</strong></p>
+          <p>クラス: ${item.class}</p>
+          <p>ラッキーナンバー: ${item.number}</p>
+          <p>状況: ${item.situation}</p>
+          <p>詳細: ${item.details}</p>
+          <button class="deleteBtn" data-id="${item.id}">この記録を削除</button>
+        </div>`;
+      }
+    });
+
+    historyContent.innerHTML = historyHTML || '<p>履歴はありません。</p>';
+
+    // 個別の記録を削除するボタンのイベントリスナーを追加
+    const deleteBtns = document.querySelectorAll('.deleteBtn');
+    deleteBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        deleteHistoryItem(id);
+      });
+    });
+  }
+
+  function deleteHistoryItem(id) {
+    if (confirm('この記録を削除しますか？')) {
+      let history = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      history = history.filter(item => item.id != id);
+      localStorage.setItem('chatHistory', JSON.stringify(history));
+      displayHistory(); // 履歴を再表示
+    }
+  }
+});
+</script>
+</body>
+</html>
